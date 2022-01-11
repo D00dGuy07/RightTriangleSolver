@@ -80,37 +80,6 @@ namespace RightTriangleSolver
 
 			var results = new List<Tuple<char, List<Tuple<string, string>>>>();
 
-			// Calculate angles
-			if (val_A == null && val_B != null)
-            {
-				val_A = 90.0 - val_B;
-				A.Text = val_A.ToString();
-
-				results.Add(new Tuple<char, List<Tuple<string, string>>>(
-					'A', new List<Tuple<string, string>>
-					{
-						new Tuple<string, string>(@"A=90-B", "Formula"),
-						new Tuple<string, string>($@"A=90-{val_B}", "Substitute variables"),
-						new Tuple<string, string>($@"A={val_A}", "Simplify")
-					}
-				));
-			}
-
-			if (val_B == null && val_A != null)
-			{
-				val_B = 90.0 - val_A;
-				B.Text = val_B.ToString();
-
-				results.Add(new Tuple<char, List<Tuple<string, string>>>(
-					'B', new List<Tuple<string, string>>
-					{
-						new Tuple<string, string>(@"B=90-A", "Formula"),
-						new Tuple<string, string>($@"B=90-{val_A}", "Substitute variables"),
-						new Tuple<string, string>($@"B={val_B}", "Simplify")
-					}
-				));
-			}
-
 			// Calculate lengths
 			// If it gets here then we either have
 			// 0 angles and 2 lengths : Fill in third length
@@ -200,7 +169,7 @@ namespace RightTriangleSolver
 							}
 						));
 					}
-					if (val_b != null)
+					else if (val_b != null)
                     {
 						// Opposite is known
 						val_c = (double)val_b / Math.Sin(degToRad((double)val_A));
@@ -227,7 +196,7 @@ namespace RightTriangleSolver
 							}
 						));
 					}
-					if (val_c != null)
+					else if (val_c != null)
                     {
 						// Hypotenuse is known
 						val_b = Math.Sin(degToRad((double)val_A)) * (double)val_c;
@@ -285,7 +254,7 @@ namespace RightTriangleSolver
 							}
 						));
 					}
-					if (val_b != null)
+					else if (val_b != null)
 					{
 						// Adjacent is known
 						val_c = (double)val_b / Math.Cos(degToRad((double)val_B));
@@ -312,7 +281,7 @@ namespace RightTriangleSolver
 							}
 						));
 					}
-					if (val_c != null)
+					else if (val_c != null)
 					{
 						// Hypotenuse is known
 						val_a = Math.Sin(degToRad((double)val_B)) * (double)val_c;
@@ -340,6 +309,36 @@ namespace RightTriangleSolver
 						));
 					}
 				}
+			}
+
+			// Calculate angles
+			if (val_A == null && val_B != null)
+			{
+				val_A = 90.0 - val_B;
+				A.Text = val_A.ToString();
+
+				results.Add(new Tuple<char, List<Tuple<string, string>>>(
+					'A', new List<Tuple<string, string>>
+					{
+						new Tuple<string, string>(@"A=90-B", "Formula"),
+						new Tuple<string, string>($@"A=90-{val_B}", "Substitute variables"),
+						new Tuple<string, string>($@"A={val_A}", "Simplify")
+					}
+				));
+			}
+			else if (val_B == null && val_A != null)
+			{
+				val_B = 90.0 - val_A;
+				B.Text = val_B.ToString();
+
+				results.Add(new Tuple<char, List<Tuple<string, string>>>(
+					'B', new List<Tuple<string, string>>
+					{
+						new Tuple<string, string>(@"B=90-A", "Formula"),
+						new Tuple<string, string>($@"B=90-{val_A}", "Substitute variables"),
+						new Tuple<string, string>($@"B={val_B}", "Simplify")
+					}
+				));
 			}
 
 			if (angleConstants == 0)
@@ -373,5 +372,20 @@ namespace RightTriangleSolver
 			ResultsWindow resultWindow = new ResultsWindow(results);
 			resultWindow.Show();
 		}
-	}
+
+        private void clear_Click(object sender, RoutedEventArgs e)
+        {
+			TextBox A = FindName("A") as TextBox;
+			TextBox B = FindName("B") as TextBox;
+			TextBox a = FindName("a") as TextBox;
+			TextBox b = FindName("b") as TextBox;
+			TextBox c = FindName("c") as TextBox;
+
+			A.Text = "";
+			B.Text = "";
+			a.Text = "";
+			b.Text = "";
+			c.Text = "";
+		}
+    }
 }

@@ -23,6 +23,9 @@ namespace RightTriangleSolver
         public MainWindow()
         {
             InitializeComponent();
+
+            App.Current.MainWindow = this;
+            App.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
         }
     }
 }
